@@ -15,7 +15,7 @@ COPY composer.json composer.lock ./
 # Install production dependencies without generating autoloader
 # (This avoids errors about missing directories like database/seeds)
 ENV COMPOSER_ALLOW_SUPERUSER 1
-RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-req=ext-exif
+RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-reqs
 
 # Copy the rest of the application
 COPY . .
