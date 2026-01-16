@@ -12,14 +12,15 @@ WORKDIR /var/www/hormozgroup.ir
 # Copy only composer files first for better layer caching
 COPY composer.json composer.lock ./
 
-# Install production dependencies
+# Install production dependencies without generating autoloader
+# (This avoids errors about missing directories like database/seeds)
 ENV COMPOSER_ALLOW_SUPERUSER 1
-RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-req=ext-exif
+RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-req=ext-exif
 
 # Copy the rest of the application
 COPY . .
 
-# Generate optimized autoload files
+# Now that the files are present, generate the optimized autoloader
 RUN composer dump-autoload --optimize
 
 # Stage 2: Production
