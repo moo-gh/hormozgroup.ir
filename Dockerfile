@@ -4,8 +4,8 @@ FROM php:7.4-fpm-alpine AS builder
 # Install build dependencies
 RUN docker-php-ext-install pdo pdo_mysql sockets
 
-# Get composer from official image
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Use Composer 1 for compatibility with Laravel 7
+COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/hormozgroup.ir
 
@@ -20,8 +20,8 @@ RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-req
 # Copy the rest of the application
 COPY . .
 
-# Now that the files are present, generate the optimized autoloader
-RUN composer dump-autoload --optimize
+# Generate optimized autoload files (skip scripts to avoid discovery errors during build)
+RUN composer dump-autoload --optimize --no-scripts
 
 # Stage 2: Production
 FROM php:7.4-fpm-alpine
