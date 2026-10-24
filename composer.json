@@ -13,7 +13,7 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "hekmatinasser/verta": "^1.10",
-        "laravel/framework": "^7.0",
+        "laravel/framework": "^7.30",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "morilog/jalali": "3.*",

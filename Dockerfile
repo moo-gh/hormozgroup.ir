@@ -3,11 +3,10 @@ FROM php:8.0-fpm-alpine AS builder
 
 # Install build dependencies
 RUN apk add --no-cache $PHPIZE_DEPS mariadb-dev \
-    && docker-php-ext-install pdo pdo_mysql sockets \
+    && docker-php-ext-install pdo pdo_mysql sockets exif \
     && apk del $PHPIZE_DEPS
 
-# Use Composer 1 for compatibility with Laravel 7
-COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/hormozgroup.ir
 
@@ -30,7 +29,7 @@ FROM php:8.0-fpm-alpine
 
 # Install runtime extensions
 RUN apk add --no-cache $PHPIZE_DEPS mariadb-dev \
-    && docker-php-ext-install pdo pdo_mysql sockets \
+    && docker-php-ext-install pdo pdo_mysql sockets exif \
     && apk del $PHPIZE_DEPS
 
 WORKDIR /var/www/hormozgroup.ir
