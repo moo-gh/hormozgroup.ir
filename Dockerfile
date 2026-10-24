@@ -17,10 +17,12 @@ COPY composer.json composer.lock ./
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer update --no-dev --no-scripts --no-autoloader --with-all-dependencies --no-interaction --ignore-platform-req=php
 
-# Copy the rest of the application
+# Copy the rest of the application (overwrites composer.lock from the host).
 COPY . .
 
-# Generate optimized autoload files (skip scripts to avoid discovery errors during build)
+# Re-sync after COPY . . so vendor and composer.lock match (bind-mounted deploys use this tree).
+RUN composer update --no-dev --no-scripts --no-autoloader --with-all-dependencies --no-interaction --ignore-platform-req=php
+
 RUN composer dump-autoload --optimize --no-scripts
 
 # Stage 2: Production
