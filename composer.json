@@ -17,7 +17,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "morilog/jalali": "3.*",
-        "spatie/laravel-sitemap": "^5.9",
+        "spatie/laravel-sitemap": "5.8.0",
         "spatie/schema-org": "^3.0"
     },
     "require-dev": {
@@ -29,6 +29,7 @@
     },
     "config": {
         "optimize-autoloader": true,
+        "platform-check": false,
         "preferred-install": "dist",
         "sort-packages": true
     },

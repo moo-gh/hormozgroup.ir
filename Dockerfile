@@ -15,7 +15,7 @@ COPY composer.json composer.lock ./
 
 # Resolve deps for PHP 8.0 inside the image (lock file may lag until refreshed on the server).
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer update --no-dev --no-scripts --no-autoloader --with-all-dependencies --no-interaction
+RUN composer update --no-dev --no-scripts --no-autoloader --with-all-dependencies --no-interaction --ignore-platform-req=php
 
 # Copy the rest of the application
 COPY . .
