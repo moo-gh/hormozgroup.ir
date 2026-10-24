@@ -11,13 +11,13 @@
         "php": "^7.2.5|^8.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.2",
         "hekmatinasser/verta": "^1.10",
         "laravel/framework": "^7.30",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "morilog/jalali": "3.*",
-        "spatie/laravel-sitemap": "^5.7",
+        "spatie/laravel-sitemap": "^5.9",
         "spatie/schema-org": "^2.8"
     },
     "require-dev": {
