@@ -13,10 +13,9 @@ WORKDIR /var/www/hormozgroup.ir
 # Copy only composer files first for better layer caching
 COPY composer.json composer.lock ./
 
-# Install production dependencies without generating autoloader
-# (This avoids errors about missing directories like database/seeds)
-ENV COMPOSER_ALLOW_SUPERUSER 1
-RUN composer install --no-dev --no-scripts --no-autoloader
+# Resolve deps for PHP 8.0 inside the image (lock file may lag until refreshed on the server).
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN composer update --no-dev --no-scripts --no-autoloader --with-all-dependencies --no-interaction
 
 # Copy the rest of the application
 COPY . .
