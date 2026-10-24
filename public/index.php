@@ -9,6 +9,9 @@
 
 define('LARAVEL_START', microtime(true));
 
+// Laravel 7.2 treats PHP 8 deprecations as exceptions; ignore until framework is 7.30+.
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
