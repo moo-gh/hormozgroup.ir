@@ -1,8 +1,10 @@
 # Stage 1: Build
-FROM php:7.4-fpm-alpine AS builder
+FROM php:8.0-fpm-alpine AS builder
 
 # Install build dependencies
-RUN docker-php-ext-install pdo pdo_mysql sockets
+RUN apk add --no-cache $PHPIZE_DEPS mariadb-dev \
+    && docker-php-ext-install pdo pdo_mysql sockets \
+    && apk del $PHPIZE_DEPS
 
 # Use Composer 1 for compatibility with Laravel 7
 COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
@@ -15,7 +17,7 @@ COPY composer.json composer.lock ./
 # Install production dependencies without generating autoloader
 # (This avoids errors about missing directories like database/seeds)
 ENV COMPOSER_ALLOW_SUPERUSER 1
-RUN composer install --no-dev --no-scripts --no-autoloader --ignore-platform-reqs
+RUN composer install --no-dev --no-scripts --no-autoloader
 
 # Copy the rest of the application
 COPY . .
@@ -24,10 +26,12 @@ COPY . .
 RUN composer dump-autoload --optimize --no-scripts
 
 # Stage 2: Production
-FROM php:7.4-fpm-alpine
+FROM php:8.0-fpm-alpine
 
 # Install runtime extensions
-RUN docker-php-ext-install pdo pdo_mysql sockets
+RUN apk add --no-cache $PHPIZE_DEPS mariadb-dev \
+    && docker-php-ext-install pdo pdo_mysql sockets \
+    && apk del $PHPIZE_DEPS
 
 WORKDIR /var/www/hormozgroup.ir
 
