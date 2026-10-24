@@ -31,10 +31,21 @@ RUN apk add --no-cache $PHPIZE_DEPS mariadb-dev \
     && docker-php-ext-install pdo pdo_mysql sockets exif \
     && apk del $PHPIZE_DEPS
 
+# Laravel 7 on PHP 8 emits ReflectionParameter::getClass() deprecations; hide them in production.
+RUN { \
+    echo 'error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT'; \
+    echo 'display_errors = Off'; \
+    echo 'log_errors = On'; \
+    } > /usr/local/etc/php/conf.d/99-production.ini
+
 WORKDIR /var/www/hormozgroup.ir
 
 # Copy application from builder stage
 COPY --from=builder /var/www/hormozgroup.ir /var/www/hormozgroup.ir
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY docker/entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Ensure storage and bootstrap/cache are writable
 RUN chmod -R 775 storage bootstrap/cache && \
@@ -42,4 +53,5 @@ RUN chmod -R 775 storage bootstrap/cache && \
 
 EXPOSE 9000
 
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]
