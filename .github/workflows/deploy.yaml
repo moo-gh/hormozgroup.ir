@@ -18,6 +18,8 @@ jobs:
           username: ${{secrets.USERNAME}}
           key: ${{secrets.SSHKEY}}
           script: >
-            cd ${{secrets.PROJECT_PATH}} 
-            && git pull 
-            && docker-compose up -d --build
+            cd ${{secrets.PROJECT_PATH}}
+            && git pull
+            && docker-compose build hormozgroup
+            && docker-compose run --rm --no-deps hormozgroup composer install --no-dev --optimize-autoloader --no-interaction
+            && docker-compose up -d
