@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM php:8.0-fpm-alpine AS builder
+FROM php:8.1-fpm-alpine AS builder
 
 # Install build dependencies
 RUN apk add --no-cache $PHPIZE_DEPS mariadb-dev \
@@ -22,7 +22,7 @@ COPY . .
 RUN composer dump-autoload --optimize --no-scripts
 
 # Stage 2: Production
-FROM php:8.0-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 # Install runtime extensions
 RUN apk add --no-cache $PHPIZE_DEPS mariadb-dev \
