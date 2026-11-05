@@ -8,14 +8,14 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "guzzlehttp/guzzle": "^7.8",
-        "hekmatinasser/verta": "^8.5",
-        "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10",
+        "hekmatinasser/verta": "^9.0",
+        "laravel/framework": "^13.0",
+        "laravel/tinker": "^3.0",
         "laravel/ui": "^4.0",
-        "morilog/jalali": "3.*",
-        "spatie/laravel-sitemap": "^7.2",
+        "morilog/jalali": "^3.4",
+        "spatie/laravel-sitemap": "^7.4",
         "spatie/schema-org": "^3.0"
     },
     "require-dev": {
@@ -23,7 +23,7 @@
         "laravel/legacy-factories": "^1.4",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.0",
+        "phpunit/phpunit": "^12.0",
         "spatie/laravel-ignition": "^2.4"
     },
     "config": {
@@ -31,7 +31,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "platform": {
-            "php": "8.2.28"
+            "php": "8.3.36"
         },
         "audit": {
             "block-insecure": false

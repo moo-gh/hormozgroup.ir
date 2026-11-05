@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM php:8.2-fpm-alpine AS builder
+FROM php:8.3-fpm-alpine AS builder
 
 # linux-headers needed for sockets on newer Alpine
 RUN apk add --no-cache $PHPIZE_DEPS linux-headers mariadb-dev \
@@ -22,7 +22,7 @@ COPY . .
 RUN composer dump-autoload --optimize --no-scripts
 
 # Stage 2: Production
-FROM php:8.2-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 RUN apk add --no-cache $PHPIZE_DEPS linux-headers mariadb-dev \
     && docker-php-ext-install pdo pdo_mysql sockets exif \
