@@ -1,8 +1,8 @@
 # Stage 1: Build
-FROM php:8.1-fpm-alpine AS builder
+FROM php:8.2-fpm-alpine AS builder
 
-# Install build dependencies
-RUN apk add --no-cache $PHPIZE_DEPS mariadb-dev \
+# linux-headers needed for sockets on newer Alpine
+RUN apk add --no-cache $PHPIZE_DEPS linux-headers mariadb-dev \
     && docker-php-ext-install pdo pdo_mysql sockets exif \
     && apk del $PHPIZE_DEPS
 
@@ -22,10 +22,9 @@ COPY . .
 RUN composer dump-autoload --optimize --no-scripts
 
 # Stage 2: Production
-FROM php:8.1-fpm-alpine
+FROM php:8.2-fpm-alpine
 
-# Install runtime extensions
-RUN apk add --no-cache $PHPIZE_DEPS mariadb-dev \
+RUN apk add --no-cache $PHPIZE_DEPS linux-headers mariadb-dev \
     && docker-php-ext-install pdo pdo_mysql sockets exif \
     && apk del $PHPIZE_DEPS
 

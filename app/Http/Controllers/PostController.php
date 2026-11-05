@@ -56,18 +56,19 @@ class PostController extends Controller
             'body' => 'required',
         ]);
 
-        $dom = new \domdocument();
+        $dom = new \DOMDocument();
         libxml_use_internal_errors(true);
-        $dom->loadHtml(mb_convert_encoding($request->body, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $body = mb_encode_numericentity($request->body, [0x80, 0x10FFFF, 0, 0xFFFF], 'UTF-8');
+        $dom->loadHTML($body, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
-        $images = $dom->getelementsbytagname('img');
+        $images = $dom->getElementsByTagName('img');
         $mainImage = '';
 
         foreach ($images as $k => $img) {
-            $data = $img->getattribute('src');
-            $filename = $img->getattribute('data-filename');
+            $data = $img->getAttribute('src');
+            $filename = $img->getAttribute('data-filename');
 
-            if (strpos($data, ';') !== false) {
+            if (str_contains($data, ';')) {
                 list($type, $data) = explode(';', $data);
                 list(, $data)      = explode(',', $data);
             } else
@@ -154,14 +155,16 @@ class PostController extends Controller
         ]);
 
         libxml_use_internal_errors(true);
-        $dom = new \domdocument();
-        $dom->loadHtml(mb_convert_encoding($request->body, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        $images = $dom->getelementsbytagname('img');
+        $dom = new \DOMDocument();
+        $body = mb_encode_numericentity($request->body, [0x80, 0x10FFFF, 0, 0xFFFF], 'UTF-8');
+        $dom->loadHTML($body, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+        $images = $dom->getElementsByTagName('img');
         $mainImage = '';
         foreach ($images as $k => $img) {
-            $data = $img->getattribute('src');
-            $filename = $img->getattribute('data-filename');
-            if (strpos($data, ';') !== false) {
+            $data = $img->getAttribute('src');
+            $filename = $img->getAttribute('data-filename');
+            if (str_contains($data, ';')) {
                 list($type, $data) = explode(';', $data);
                 list(, $data)      = explode(',', $data);
             } else {
